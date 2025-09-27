@@ -5,16 +5,15 @@ import { Badge } from './components/ui/badge';
 import { BadgeCheckIcon } from 'lucide-react';
 
 function App() {
-  const [userName, setUserName] = useState<string | null>(null);
+  const [userCredential, setUserCredential] = useState<any | null>(null);
 
   useEffect(() => {
-    const storedName = localStorage.getItem('userName');
-    if (storedName) {
-      setUserName(storedName);
+    const userCredential = localStorage.getItem('userCredential');
+    if (userCredential) {
+      setUserCredential(userCredential);
     }
   }, []);
 
-  // Función para enviar el token al backend
   const handleGoogleLoginSuccess = async (credentialResponse: any) => {
     const token = credentialResponse.credential;
     try {
@@ -27,8 +26,8 @@ function App() {
       });
       const data = await response.json();
       if (data) {
-        setUserName(data.user.name);
-        localStorage.setItem('userName', data.user.name);
+        setUserCredential(data);
+        localStorage.setItem('userCredential', data);
       }
       console.log('Login backend response:', data);
     } catch (error) {
@@ -37,16 +36,16 @@ function App() {
   };
 
   function handleLogout(): void {
-    setUserName(null);
-    localStorage.removeItem('userName');
+    setUserCredential(null);
+    localStorage.removeItem('userCredential');
   }
 
   return (
       <div className="card">
-        {userName ? (
+        {userCredential ? (
           <>
           <Badge variant="secondary"
-          className="bg-blue-500 text-white dark:bg-blue-600" onClick={handleLogout}>{userName} <BadgeCheckIcon /></Badge>
+          className="bg-blue-500 text-white dark:bg-blue-600" onClick={handleLogout}>{userCredential.name} <BadgeCheckIcon /></Badge>
             </>
         ) : (
           <GoogleOAuthProvider clientId="65738319816-84n4osqr38kdjhqdrr7q0a0id2d56gre.apps.googleusercontent.com">
