@@ -1,4 +1,5 @@
 import { useState } from 'react'
+// @ts-ignore
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
