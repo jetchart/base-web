@@ -10,8 +10,7 @@ declare global {
 import { useState, useEffect } from 'react';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import './App.css';
-import { Badge } from './components/ui/badge';
-import { BadgeCheckIcon } from 'lucide-react';
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './components/ui/card';
 
 function App() {
   const [userCredential, setUserCredential] = useState<any | null>(null);
@@ -54,22 +53,24 @@ function App() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-neutral-100 to-neutral-200 dark:from-neutral-900 dark:to-neutral-950">
-      <div className="w-full max-w-sm">
-        <div className="rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white/80 dark:bg-neutral-950/80 p-8 shadow-xl backdrop-blur-md transition-all">
-          <h1 className="text-2xl font-bold text-center text-neutral-900 dark:text-white mb-2 tracking-tight">Welcome</h1>
-          <p className="text-center text-neutral-500 dark:text-neutral-400 mb-6 text-sm">Sign in to continue</p>
+  <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-neutral-950">
+      <Card className="w-full max-w-sm mx-auto mt-8 border-none shadow-none bg-transparent p-0">
+        <CardHeader className="p-0 mb-4">
+          <CardTitle className="text-center text-lg font-medium text-neutral-800 dark:text-neutral-200">Welcome</CardTitle>
+          {!userCredential && (
+            <CardDescription className="text-center text-neutral-500 dark:text-neutral-400">Sign in to continue</CardDescription>
+          )}
+        </CardHeader>
+        <CardContent className="p-0 flex flex-col items-center">
           {userCredential ? (
-            <div className="flex flex-col items-center gap-3">
-              <div className="flex items-center gap-2 bg-neutral-100 dark:bg-neutral-900 rounded-full px-4 py-2">
-                <span className="text-base text-neutral-800 dark:text-neutral-200 font-medium">{userCredential.name}</span>
-                <button
-                  onClick={handleLogout}
-                  className="ml-2 px-3 py-1 rounded-full bg-neutral-200 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-300 hover:bg-neutral-300 dark:hover:bg-neutral-700 transition text-xs font-semibold shadow-sm border border-neutral-300 dark:border-neutral-700"
-                >
-                  Log out
-                </button>
-              </div>
+            <div className="flex flex-col items-center gap-2">
+              <span className="text-base text-neutral-700 dark:text-neutral-300">{userCredential.name}</span>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-1 rounded border border-neutral-300 dark:border-neutral-700 bg-transparent text-neutral-700 dark:text-neutral-200 hover:bg-neutral-100 dark:hover:bg-neutral-800 transition text-sm"
+              >
+                Log out
+              </button>
             </div>
           ) : (
             <div className="flex justify-center">
@@ -79,15 +80,15 @@ function App() {
                   onError={() => {
                     console.log("Login Failed");
                   }}
-                  theme="filled_black"
-                  shape="pill"
-                  text="continue_with"
+                  theme="outline"
+                  shape="rectangular"
+                  text="signin_with"
                 />
               </GoogleOAuthProvider>
             </div>
           )}
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }
