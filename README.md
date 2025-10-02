@@ -1,16 +1,81 @@
-# React + Vite
+# Base Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, minimal, and responsive React + Vite + TypeScript starter project with Google OAuth login, protected API calls, and UI built using shadcn/ui and Tailwind CSS.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- ⚡️ Vite for fast development and builds
+- ⚛️ React 18 with TypeScript
+- 🎨 Tailwind CSS for utility-first styling
+- 🧩 shadcn/ui for beautiful, accessible UI components
+- 🔐 Google OAuth login integration
+- 🔒 JWT-protected API requests
+- 📱 Fully responsive and mobile-friendly
+- 🗂️ Clean, scalable file structure
 
-## React Compiler
+## Getting Started
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 1. Clone the repository
 
-## Expanding the ESLint configuration
+```bash
+git clone https://github.com/your-username/base-web.git
+cd base-web
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 2. Install dependencies
+
+```bash
+npm install
+```
+
+### 3. Configure environment variables
+
+Create a `.env` file in the root directory:
+
+```env
+VITE_BACKEND_URL=http://localhost:3000
+VITE_GOOGLE_CLIENT_ID=your-google-client-id.apps.googleusercontent.com
+```
+
+### 4. Run the development server
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+## Usage
+
+- Click "Sign in with Google" to log in.
+- After login, a JWT is stored and used for authenticated API requests.
+- The `/users` endpoint is fetched and displayed in a table if available.
+- UI is fully responsive and adapts to light/dark mode.
+
+## Project Structure
+
+```
+├── src/
+│   ├── components/
+│   │   └── ui/         # shadcn/ui components
+│   ├── assets/
+│   ├── App.tsx
+│   ├── main.tsx
+│   └── index.css
+├── public/
+├── .env
+├── package.json
+├── tailwind.config.js
+├── tsconfig.json
+└── vite.config.js
+```
+
+## Customization
+
+- Add more shadcn/ui components as needed.
+- Update Tailwind config for your brand colors or breakpoints.
+- Extend authentication or API logic as your app grows.
+
+## License
+
+MIT
