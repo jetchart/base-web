@@ -36,6 +36,8 @@ Copy the example file and edit it:
 cp .env.example .env
 ```
 
+Fill in the required values in .env (VITE_BACKEND_URL and VITE_GOOGLE_CLIENT_ID).
+
 ### 4. Run the development server
 
 ```bash
