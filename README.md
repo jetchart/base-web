@@ -30,11 +30,10 @@ npm install
 
 ### 3. Configure environment variables
 
-Create a `.env` file in the root directory:
+Copy the example file and edit it:
 
 ```env
-VITE_BACKEND_URL=http://localhost:3000
-VITE_GOOGLE_CLIENT_ID=your-google-client-id.apps.googleusercontent.com
+cp .env.example .env
 ```
 
 ### 4. Run the development server
