@@ -87,7 +87,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-neutral-950 p-2 sm:p-6">
+    <div className="min-h-screen dark:bg-neutral-950 p-2 sm:p-6">
       {/* Login card (optional, below) */}
       <div className="flex flex-col items-center justify-center mt-12">
         <Card className="w-full max-w-sm mx-auto border-none shadow-none bg-transparent p-0">
