@@ -136,15 +136,8 @@ function App() {
               <div className="col-span-full text-center text-gray-500">No hay carreras disponibles.</div>
             )}
             {races.map((race: any) => {
-              // Convert Buffer to base64 image
-              let imgSrc = '';
-              if (race.image && race.image.data) {
-                try {
-                  const byteArray = new Uint8Array(race.image.data);
-                  const binary = byteArray.reduce((acc, byte) => acc + String.fromCharCode(byte), '');
-                  imgSrc = `data:image/jpeg;base64,${btoa(binary)}`;
-                } catch {}
-              }
+              // Usar imageUrl directamente
+              const imgSrc = race.imageUrl || '';
               // Format date
               const startDate = new Date(race.startDate);
               const dateStr = startDate.toLocaleDateString('es-AR', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
