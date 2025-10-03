@@ -15,6 +15,7 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './com
 function App() {
   const [userCredential, setUserCredential] = useState<any | null>(null);
   const [users, setUsers] = useState<any[]>([]);
+  const [races, setRaces] = useState<any[]>([]);
 
   useEffect(() => {
     const stored = localStorage.getItem('userCredential');
@@ -27,7 +28,7 @@ function App() {
     }
   }, []);
 
-  // Fetch users when logged in
+  // Fetch users and races when logged in
   useEffect(() => {
     if (userCredential && userCredential.token) {
       fetch(`${import.meta.env.VITE_BACKEND_URL}/users`, {
@@ -38,8 +39,18 @@ function App() {
         .then(res => res.json())
         .then(data => setUsers(data))
         .catch(() => setUsers([]));
+
+      fetch(`${import.meta.env.VITE_BACKEND_URL}/races`, {
+        headers: {
+          'Authorization': `Bearer ${userCredential.token}`
+        }
+      })
+        .then(res => res.json())
+        .then(data => setRaces(data))
+        .catch(() => setRaces([]));
     } else {
       setUsers([]);
+      setRaces([]);
     }
   }, [userCredential]);
 
@@ -115,36 +126,53 @@ function App() {
           </CardContent>
         </Card>
       </div>
-      {/* Users table */}
-      {userCredential && users.length > 0 && (
-        <div className="max-w-2xl mx-auto mt-10">
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base font-semibold">Users</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="min-w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-neutral-200 dark:border-neutral-800">
-                      {Object.keys(users[0]).map((key) => (
-                        <th key={key} className="px-3 py-2 text-left font-medium text-neutral-700 dark:text-neutral-200">{key}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {users.map((user, idx) => (
-                      <tr key={idx} className="border-b border-neutral-100 dark:border-neutral-800">
-                        {Object.values(user).map((value, i) => (
-                          <td key={i} className="px-3 py-2 text-neutral-700 dark:text-neutral-300">{String(value)}</td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
+
+      {/* Races cards */}
+      {userCredential && (
+        <div className="max-w-6xl mx-auto mt-10">
+          <h2 className="text-xl font-bold mb-4 text-neutral-800 dark:text-neutral-200">Próximas Carreras</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {races.length === 0 && (
+              <div className="col-span-full text-center text-gray-500">No hay carreras disponibles.</div>
+            )}
+            {races.map((race: any) => {
+              // Convert Buffer to base64 image
+              let imgSrc = '';
+              if (race.image && race.image.data) {
+                try {
+                  const byteArray = new Uint8Array(race.image.data);
+                  const binary = byteArray.reduce((acc, byte) => acc + String.fromCharCode(byte), '');
+                  imgSrc = `data:image/jpeg;base64,${btoa(binary)}`;
+                } catch {}
+              }
+              // Format date
+              const startDate = new Date(race.startDate);
+              const dateStr = startDate.toLocaleDateString('es-AR', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase();
+              // Distances
+              const distances = (race.distances || []).map((d: any) => d.distance.shortDescription).join(' - ');
+              return (
+                <Card key={race.id} className="flex flex-col h-full shadow-md border rounded-lg overflow-hidden">
+                  {imgSrc && (
+                    <img src={imgSrc} alt={race.name} className="h-36 w-full object-cover" />
+                  )}
+                  <CardContent className="flex-1 flex flex-col justify-between p-4">
+                    <div>
+                      <div className="text-xs text-gray-500 mb-1">{dateStr}</div>
+                      <div className="font-bold text-base mb-1 leading-tight">{race.name}</div>
+                      <div className="text-sm text-gray-700 mb-2 font-medium">{distances}</div>
+                      <div className="text-xs text-gray-500 mb-2">{race.city}, {race.country}</div>
+                      <div className="text-xs text-gray-600 mb-2">{race.description}</div>
+                    </div>
+                    <div className="mt-auto flex justify-end">
+                      {race.website && (
+                        <a href={race.website} target="_blank" rel="noopener noreferrer" className="text-blue-600 font-semibold hover:underline text-sm">Ver más</a>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              );
+            })}
+          </div>
         </div>
       )}
     </div>
