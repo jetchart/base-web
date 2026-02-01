@@ -12,7 +12,8 @@ import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 import './App.css';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './components/ui/card';
 import { UserCredential } from './auth/user-credential';
-import { apiFetch, getJwtExp } from './auth/auth-utils';
+import { getJwtExp } from './auth/auth-utils';
+import { apiGet } from './api';
 
 
 function App() {
@@ -49,7 +50,7 @@ function App() {
     setError(null);
     const token = credentialResponse.credential;
     try {
-      const data = await apiFetch(
+      const data = await apiGet(
         `${import.meta.env.VITE_BACKEND_URL}/auth/google/login`,
         {
           method: 'POST',
