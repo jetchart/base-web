@@ -21,7 +21,6 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  // Chequea expiración del token al montar
   useEffect(() => {
     const stored = localStorage.getItem('userCredential');
     if (stored) {
@@ -30,7 +29,6 @@ function App() {
         if (parsed.token) {
           const exp = getJwtExp(parsed.token);
           if (exp && exp * 1000 < Date.now()) {
-            // Token expirado
             setUserCredential(null);
             localStorage.removeItem('userCredential');
             return;

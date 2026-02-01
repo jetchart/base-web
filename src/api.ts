@@ -7,7 +7,6 @@ const api = axios.create({
   timeout: 10000,
 });
 
-// Interceptor para agregar token automáticamente
 api.interceptors.request.use((config) => {
   const stored = localStorage.getItem('userCredential');
   if (stored) {
